@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:wotcher/theme/app_colors.dart';
 
-class AuthWidget extends StatelessWidget {
-  const AuthWidget({super.key});
+class AuthScreen extends StatelessWidget {
+  const AuthScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF171C21),
-      appBar: AppBar(
-        title: Text('Wotcher'),
-        backgroundColor: const Color(0xFF171C21),
-        foregroundColor: Color(0xFFE2E2E2),
-        titleSpacing: 15,
-      ),
+      appBar: AppBar(title: Text('Wotcher')),
       body: _Form(),
     );
   }
@@ -32,6 +27,7 @@ class _FormState extends State<_Form> {
   void auth() {
     if (_emailController.text == 'opa') {
       _errorMessage = null;
+      Navigator.pushReplacementNamed(context, '/main');
     } else {
       _errorMessage = 'Email invalid';
     }
@@ -129,7 +125,7 @@ class _FormTitle extends StatelessWidget {
     return Text(
       'Create New Profile',
       style: TextStyle(
-        color: Color(0xFFE2E2E2),
+        color: AppColors.foreground,
         fontSize: 18,
         fontWeight: FontWeight.w700,
       ),
