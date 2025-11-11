@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wotcher/widgets/movie_list/movie_list.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -10,10 +11,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
-  final List<Widget> _widgetOptions = <Widget>[
-    Text('Movies'),
-    Text('TV Shows'),
-  ];
+  final List<Widget> _widgetOptions = <Widget>[MovieList(), Text('TV Shows')];
 
   void _onSelectItem(int index) {
     setState(() {
