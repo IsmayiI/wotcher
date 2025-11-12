@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wotcher/widgets/movie_list/movie_list.dart';
+import 'package:wotcher/widgets/search/search_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -9,9 +10,13 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
-  final List<Widget> _widgetOptions = <Widget>[MovieList(), Text('TV Shows')];
+  final List<Widget> _widgetOptions = <Widget>[
+    MovieList(),
+    SearchScreen(),
+    Text('TV Shows'),
+  ];
 
   void _onSelectItem(int index) {
     setState(() {
@@ -23,13 +28,17 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Wotcher')),
-      body: Center(child: _widgetOptions[_selectedIndex]),
+      body: IndexedStack(index: _selectedIndex, children: _widgetOptions),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.local_movies_rounded),
             label: 'Movies',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search_rounded),
+            label: 'Search',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.live_tv_rounded),

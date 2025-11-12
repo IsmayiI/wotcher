@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wotcher/data/movies.dart';
 import 'package:wotcher/theme/app_colors.dart';
 
 class MovieList extends StatelessWidget {
@@ -8,7 +9,7 @@ class MovieList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GridView.builder(
-        itemCount: 20,
+        itemCount: Movies.movies.length,
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
@@ -17,7 +18,7 @@ class MovieList extends StatelessWidget {
           mainAxisExtent: 300,
         ),
         itemBuilder: (context, index) =>
-            Stack(children: [_MovieItem(), _TapEffect()]),
+            Stack(children: [_MovieItem(index), _TapEffect()]),
       ),
     );
   }
@@ -40,43 +41,49 @@ class _TapEffect extends StatelessWidget {
 }
 
 class _MovieItem extends StatelessWidget {
-  const _MovieItem();
+  final int index;
+  const _MovieItem(this.index);
 
   @override
   Widget build(BuildContext context) {
+    final movie = Movies.movies[index];
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [_MovieItemPoster(), _MovieItemFooter()],
+      children: [
+        _MovieItemPoster(movie.imageUrl),
+        _MovieItemFooter(movie.title, movie.rating),
+      ],
     );
   }
 }
 
 class _MovieItemPoster extends StatelessWidget {
-  const _MovieItemPoster();
+  final String poster;
+  const _MovieItemPoster(this.poster);
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadiusGeometry.circular(8),
-      child: Image.network(
-        'https://image.tmdb.org/t/p/w500/wPLysNDLffQLOVebZQCbXJEv6E6.jpg',
-      ),
+      child: Image.network(poster),
     );
   }
 }
 
 class _MovieItemFooter extends StatelessWidget {
-  const _MovieItemFooter();
+  final String title;
+  final int rating;
+  const _MovieItemFooter(this.title, this.rating);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(child: _MovieItemName()),
+        Expanded(child: _MovieItemName(title)),
         Padding(
           padding: const EdgeInsets.only(left: 5),
-          child: _MovieItemRating(),
+          child: _MovieItemRating(rating),
         ),
       ],
     );
@@ -84,12 +91,13 @@ class _MovieItemFooter extends StatelessWidget {
 }
 
 class _MovieItemRating extends StatelessWidget {
-  const _MovieItemRating();
+  final int rating;
+  const _MovieItemRating(this.rating);
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      '99',
+      rating.toString(),
       style: TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w700,
@@ -100,12 +108,13 @@ class _MovieItemRating extends StatelessWidget {
 }
 
 class _MovieItemName extends StatelessWidget {
-  const _MovieItemName();
+  final String name;
+  const _MovieItemName(this.name);
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      'Superman',
+      name,
       style: TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w500,
